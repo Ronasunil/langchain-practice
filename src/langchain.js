@@ -1,4 +1,5 @@
 const { ChatCohere } = require("@langchain/cohere");
+const { Cohere } = require("@langchain/cohere");
 const dotenv = require("dotenv");
 
 dotenv.config();
@@ -9,6 +10,10 @@ const model = new ChatCohere({
   apiKey: process.env.COHERE_API_KEY,
 });
 
+const textLLM = new Cohere({
+  apiKey: process.env.COHERE_API_KEY,
+});
+
 // model = { model };
 
-module.exports = { model };
+module.exports = { model, textLLM };
