@@ -20,9 +20,10 @@
   },
   "dependencies": {
     "@langchain/cohere": "^0.3.4",
+    "@langchain/community": "^0.3.48",
     "@langchain/core": "^0.3.62",
     "@langchain/openai": "^0.5.18",
-    "dotenv": "^17.2.0",
+    "dotenv": "^16.6.1",
     "express": "^5.1.0",
     "langchain": "^0.3.29"
   }
