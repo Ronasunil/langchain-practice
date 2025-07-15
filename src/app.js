@@ -23,6 +23,18 @@ const rl = readline.createInterface({
 
 const ask = promisify(rl.question).bind(rl);
 
+function buildPrompt(context, question) {
+  return `
+You are a helpful assistant. Use the context below to answer the question.
+
+Context:
+${context}
+
+Question: ${question}
+
+Answer:`;
+}
+
 (async () => {
   try {
     //     const userInput = await ask("Enter what u want to translate?");
@@ -90,31 +102,20 @@ const ask = promisify(rl.question).bind(rl);
       temperature: 0,
     });
 
-    // 4. Create a prompt template function
-    function buildPrompt(context, question) {
-      return `
-You are a helpful assistant. Use the context below to answer the question.
-
-Context:
-${context}
-
-Question: ${question}
-
-Answer:`;
-    }
-
-    // 5. Build the RAG pipeline
+    // 4. Build the RAG pipeline
     const ragChain = RunnableSequence.from([
       async (input) => {
         const docs = await retriever.getRelevantDocuments(input);
+
         const context = docs.map((doc) => doc.pageContent).join("\n\n");
+
         return buildPrompt(context, input);
       },
       llm,
     ]);
 
     // 6. Use it
-    const question = "What is the main topic of this document?";
+    const question = "What is the name of indian prime minister";
     const response = await ragChain.invoke(question);
     console.log("Answer:", response);
   } catch (error) {
